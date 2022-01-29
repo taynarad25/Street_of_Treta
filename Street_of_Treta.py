@@ -1,11 +1,31 @@
 from random import randint
 
 class Personagem:
-    def init(self, nome, vida, pocao, atack):
+    def __init__(self, nome, vida, pocao, atack):
         self.nome = nome
         self.vida = vida
         self.pocao = pocao
         self.atack = atack
+
+# OBS.: Tentar implementar de uma forma diferente.
+def CriarPersonagens():
+    # Herois
+    bill = Personagem("Bill", 50 , 2, 5)
+    c2 = Personagem("C2", 50 , 2, 5)
+    jumpsbare = Personagem("Jumpsbare", 50 , 2, 5)
+    lucyfilho = Personagem("Lucyfilho", 50 , 2, 5)
+    atomo = Personagem("Átomo", 50 , 2, 5)
+    alien = Personagem("Alien", 50 , 2, 5)
+    blueman = Personagem("BLUEman", 50, 2, 5)
+    xerife_maluvido = Personagem("Xerife Maluvido", 50 , 2, 5)
+    arvore = Personagem("Árvore", 50 , 2, 5)
+    dracoman = Personagem("Dracoman", 50 , 2, 5)
+    
+    # Vilões
+    gigante = Personagem("Gigante", 50 , 2, 5)
+    martin_prudente = Personagem("Martin Prudente", 50 , 2, 5)
+    demonio_rubro = Personagem("Demonio Rubro", 50 , 2, 5)
+    morte = Personagem("Morte", 50 , 2, 5)
 
 def Inicio():
     print("******************")
