@@ -7,26 +7,6 @@ class Personagem:
         self.pocao = pocao
         self.atack = atack
 
-# OBS.: Tentar implementar de uma forma diferente.
-def CriarPersonagens():
-    # Herois
-    bill = Personagem("Bill", 50 , 2, 5)
-    c2 = Personagem("C2", 50 , 2, 5)
-    jumpsbare = Personagem("Jumpsbare", 50 , 2, 5)
-    lucyfilho = Personagem("Lucyfilho", 50 , 2, 5)
-    atomo = Personagem("Átomo", 50 , 2, 5)
-    alien = Personagem("Alien", 50 , 2, 5)
-    blueman = Personagem("BLUEman", 50, 2, 5)
-    xerife_maluvido = Personagem("Xerife Maluvido", 50 , 2, 5)
-    arvore = Personagem("Árvore", 50 , 2, 5)
-    dracoman = Personagem("Dracoman", 50 , 2, 5)
-    
-    # Vilões
-    gigante = Personagem("Gigante", 50 , 2, 5)
-    martin_prudente = Personagem("Martin Prudente", 50 , 2, 5)
-    demonio_rubro = Personagem("Demonio Rubro", 50 , 2, 5)
-    morte = Personagem("Morte", 50 , 2, 5)
-
 def Inicio():
     print("******************")
     print("* STRET OF TRETA *")
@@ -48,5 +28,48 @@ def Inicio():
         else:
             print("Entrada Invalida!")
 
+def SOT():
+    while True:
+        print("Escolha um Heroi:")
+        for i in range(10):
+            print(i+1, "-", heroi[i].nome)
+        escolha_heroi = int(input('> '))
+        if escolha_heroi < 1 or escolha_heroi > 10:
+            print("Entrada Invalida!\n")
+        else:
+            print("")
+            break
+    while True:
+        print("Escolha um Vilão:")
+        for i in range(4):
+            print(i+1, "-", vilao[i].nome)
+        escolha_vilao = int(input("> "))
+        if escolha_vilao < 1 or escolha_vilao > 4:
+            print("Entrada Invalida!\n")
+        else:
+            print("")
+            break
+
 def Main():
     Inicio()
+    SOT()
+
+heroi = []
+heroi.append(Personagem("Bill", 50 , 2, 5))
+heroi.append(Personagem("C2", 50 , 2, 5))
+heroi.append(Personagem("Jumpsbare", 50 , 2, 5))
+heroi.append(Personagem("Lucyfilho", 50 , 2, 5))
+heroi.append(Personagem("Átomo", 50 , 2, 5))
+heroi.append(Personagem("Alien", 50 , 2, 5))
+heroi.append(Personagem("BLUEman", 50, 2, 5))
+heroi.append(Personagem("Xerife Maluvido", 50 , 2, 5))
+heroi.append(Personagem("Árvore", 50 , 2, 5))
+heroi.append(Personagem("Dracoman", 50 , 2, 5))
+
+vilao = []
+vilao.append(Personagem("Gigante", 50 , 2, 5))
+vilao.append(Personagem("Martin Prudente", 50 , 2, 5))
+vilao.append(Personagem("Demonio Rubro", 50 , 2, 5))
+vilao.append(Personagem("Morte", 50 , 2, 5))
+
+Main()
