@@ -33,6 +33,7 @@ def SOT():
     rodada = 0
     vez_CPU = 0
     vez_jogador = 0
+    
     while True:
         print("Escolha um Heroi:")
         for i in range(10):
@@ -43,6 +44,7 @@ def SOT():
         else:
             print("")
             break
+    
     while True:
         print("Escolha um Vilão:")
         for i in range(4):
@@ -53,11 +55,13 @@ def SOT():
         else:
             print("")
             break
+    
     while True:
         rodada += 1
         print("*****************")
         print("* {:02}° Rodada *".format(rodada))
         print("*****************")
+        
         while True:
             print("Escolha uma das opções:")
             print("1 - Pedra")
@@ -71,6 +75,7 @@ def SOT():
                 sys.exit()
             else:
                 break
+        
         cpu = randint(1, 3)
         if cpu == 1:
             print(vilao[escolha_vilao - 1].nome, ": Pedra\n")
@@ -78,27 +83,29 @@ def SOT():
             print(vilao[escolha_vilao - 1].nome, ": Papel\n")
         else:
             print(vilao[escolha_vilao - 1].nome, ": Tesoura\n")
+        
         if opcao == 1 and cpu == 3 or opcao == 2 and cpu == 1 or opcao == 3 and cpu == 2:
             #JOGADOR GANHOU
-            print("Sua vez de atacar!")
+            print("Vez de", heroi[escolha_heroi - 1].nome,"atacar!")
             if vez_CPU == 1:
                 vez_CPU = 0
             elif vez_CPU > 1:
                 vez_CPU = 0
-                print("O ataque de", vilao[escolha_vilao - 1].nome,"voltou a ser 5")
+                print("O ataque de", vilao[escolha_vilao - 1].nome,"voltou a ser", vilao[escolha_vilao - 1].atack, "pontos.")
             vez_jogador += 1
             if vez_jogador == 1:
-                vilao[escolha_vilao - 1].vida  -= 5
+                vilao[escolha_vilao - 1].vida  -= heroi[escolha_heroi - 1].atack
             elif vez_jogador == 2:
-                vilao[escolha_vilao - 1].vida -= 6
-                print("\nO ataque de", heroi[escolha_heroi - 1].nome,"agora é de 6 pontos\n")
+                vilao[escolha_vilao - 1].vida -= heroi[escolha_heroi - 1].atack + 1
+                print("\nO ataque de", heroi[escolha_heroi - 1].nome,"agora é de", heroi[escolha_heroi - 1].atack + 1,"pontos\n")
             elif vez_jogador == 3:
-                vilao[escolha_vilao - 1].vida -= 15
-                print("\nO ataque de", heroi[escolha_heroi - 1].nome,"agora é de 15 pontos\n")
+                vilao[escolha_vilao - 1].vida -= heroi[escolha_heroi - 1].atack * 3
+                print("\nO ataque de", heroi[escolha_heroi - 1].nome,"agora é de", heroi[escolha_heroi - 1].atack * 3,"pontos\n")
             elif vez_jogador > 3:
-                vilao[escolha_vilao - 1].vida -= 15
+                vilao[escolha_vilao - 1].vida -= heroi[escolha_heroi - 1].atack * 3
             print("Vida", vilao[escolha_vilao - 1].nome,":", vilao[escolha_vilao - 1].vida)
-        if opcao == cpu:
+        
+        elif opcao == cpu:
             #EMPATE
             print("Empate! Tente novamente.")
             if vez_CPU == 1:
@@ -112,6 +119,26 @@ def SOT():
                 vez_jogador = 0
                 print("O ataque de", heroi[escolha_heroi - 1].nome, "voltou a ser 5")
         
+        elif cpu == 1 and opcao == 3 or cpu == 2 and opcao == 1 or cpu == 3 and opcao == 2:
+            #JOGADOR PERDEU!
+            print("Vez de", vilao[escolha_vilao - 1].nome,"atacar!")
+            if vez_jogador == 1:
+                vez_jogador = 0
+            elif vez_jogador > 1:
+                vez_jogador = 0
+                print("O ataque de", heroi[escolha_heroi - 1].nome,"voltou a ser", heroi[escolha_heroi - 1].atack, "pontos.")
+            vez_CPU += 1
+            if vez_CPU  == 1:
+                heroi[escolha_heroi - 1].vida -= vilao[escolha_vilao - 1].atack
+            elif vez_CPU == 2:
+                heroi[escolha_heroi - 1].vida -= vilao[escolha_vilao - 1].atack + 1
+                print("\nO ataque de", vilao[escolha_vilao - 1].nome,"agora é de", vilao[escolha_vilao - 1].atack + 1,"pontos\n")
+            elif vez_CPU == 3:
+                heroi[escolha_heroi - 1].vida -= vilao[escolha_vilao - 1].atack * 3
+                print("\nO ataque de", vilao[escolha_vilao - 1].nome,"agora é de", vilao[escolha_vilao - 1].atack * 3,"pontos\n")
+            elif vez_CPU > 3:
+                heroi[escolha_heroi - 1].vida -= vilao[escolha_vilao - 1].atack * 3
+            print("Vida", heroi[escolha_heroi - 1].nome,":", heroi[escolha_heroi - 1].vida)
 
 def Main():
     Inicio()
