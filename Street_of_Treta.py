@@ -1,4 +1,5 @@
 from random import randint
+import sys
 
 class Personagem:
     def __init__(self, nome, vida, pocao, atack):
@@ -29,6 +30,7 @@ def Inicio():
             print("Entrada Invalida!")
 
 def SOT():
+    rodada = 0
     while True:
         print("Escolha um Heroi:")
         for i in range(10):
@@ -49,6 +51,32 @@ def SOT():
         else:
             print("")
             break
+    while True:
+        rodada += 1
+        print("*****************")
+        print("* {:02}° Rodada *".format(rodada))
+        print("*****************")
+        while True:
+            print("Escolha uma das opções:")
+            print("1 - Pedra")
+            print("2 - Papel")
+            print("3 - Tesoura")
+            print("0 - Sair")
+            opcao = int(input("> "))
+            if opcao < 0 or opcao > 3:
+                print("Entrada Invalida!\n")
+            elif opcao == 0:
+                sys.exit()
+            else:
+                break
+        CPU = randint(1, 3)
+        if CPU == 1:
+            print("CPU: Pedra\n")
+        elif CPU == 2:
+            print("CPU: Papel\n")
+        else:
+            print("CPU: Tesoura\n")
+
 
 def Main():
     Inicio()
