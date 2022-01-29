@@ -31,6 +31,8 @@ def Inicio():
 
 def SOT():
     rodada = 0
+    vez_CPU = 0
+    vez_jogador = 0
     while True:
         print("Escolha um Heroi:")
         for i in range(10):
@@ -69,13 +71,32 @@ def SOT():
                 sys.exit()
             else:
                 break
-        CPU = randint(1, 3)
-        if CPU == 1:
-            print("CPU: Pedra\n")
-        elif CPU == 2:
-            print("CPU: Papel\n")
+        cpu = randint(1, 3)
+        if cpu == 1:
+            print(vilao[escolha_vilao - 1].nome, ": Pedra\n")
+        elif cpu == 2:
+            print(vilao[escolha_vilao - 1].nome, ": Papel\n")
         else:
-            print("CPU: Tesoura\n")
+            print(vilao[escolha_vilao - 1].nome, ": Tesoura\n")
+        if opcao == 1 and cpu == 3 or opcao == 2 and cpu == 1 or opcao == 3 and cpu == 2:
+            #JOGADOR GANHOU
+            if vez_CPU == 1:
+                vez_CPU = 0
+            elif vez_CPU > 1:
+                print("O ataque de", vilao[escolha_vilao - 1].nome,"voltou a ser 5")
+            print("Sua vez de atacar!")
+            vez_jogador += 1
+            if vez_jogador == 1:
+                vilao[escolha_vilao - 1].vida  -= 5
+            elif vez_jogador == 2:
+                vilao[escolha_vilao - 1].vida -= 6
+                print("\nO ataque de", heroi[escolha_heroi - 1].nome,"agora é de 6 pontos\n")
+            elif vez_jogador == 3:
+                vilao[escolha_vilao - 1].vida -= 15
+                print("\nO ataque de", heroi[escolha_heroi - 1].nome,"agora é de 15 pontos\n")
+            elif vez_jogador > 3:
+                vilao[escolha_vilao - 1].vida -= 15
+            print("Vida", vilao[escolha_vilao - 1].nome,":", vilao[escolha_vilao - 1].vida)
 
 
 def Main():
