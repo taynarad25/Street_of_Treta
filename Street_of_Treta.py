@@ -61,7 +61,7 @@ def SOT():
                 break
         
         while True:
-            time.sleep(1)
+            time.sleep(0.5)
             rodada += 1
             print("* * * * * * * *")
             print("*             *")
@@ -90,7 +90,7 @@ def SOT():
                 print(vilao[escolha_vilao - 1].nome, ": Papel\n")
             else:
                 print(vilao[escolha_vilao - 1].nome, ": Tesoura\n")
-            time.sleep(1)
+            time.sleep(0.5)
             if opcao == 1 and cpu == 3 or opcao == 2 and cpu == 1 or opcao == 3 and cpu == 2:
                 #JOGADOR GANHOU
                 print("Vez de", heroi[escolha_heroi - 1].nome,"atacar!")
