@@ -195,7 +195,6 @@ def SOT():
             else:
                 print("")
     
-
 def Main():
     Inicio()
     SOT()
