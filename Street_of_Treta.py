@@ -1,5 +1,6 @@
 from random import randint
 import sys
+import time
 
 class Personagem:
     def __init__(self, nome, vida, pocao, atack):
@@ -9,9 +10,11 @@ class Personagem:
         self.atack = atack
 
 def Inicio():
-    print("******************")
-    print("* STRET OF TRETA *")
-    print("******************")
+    print("* * * * * * * * * * *")
+    print("*                   *")
+    print("*  STRET OF TRETA   *")
+    print("*                   *")
+    print("* * * * * * * * * * *")
     while True:
         print("\nDeseja ler as instruções?")
         instrucoes = str(input("> "))
@@ -57,10 +60,13 @@ def SOT():
             break
     
     while True:
+        time.sleep(1)
         rodada += 1
-        print("*****************")
-        print("* {:02}° Rodada *".format(rodada))
-        print("*****************")
+        print("* * * * * * * *")
+        print("*             *")
+        print("* {:02}° Rodada  *".format(rodada))
+        print("*             *")
+        print("* * * * * * * *\n")
         
         while True:
             print("Escolha uma das opções:")
@@ -83,7 +89,7 @@ def SOT():
             print(vilao[escolha_vilao - 1].nome, ": Papel\n")
         else:
             print(vilao[escolha_vilao - 1].nome, ": Tesoura\n")
-        
+        time.sleep(1)
         if opcao == 1 and cpu == 3 or opcao == 2 and cpu == 1 or opcao == 3 and cpu == 2:
             #JOGADOR GANHOU
             print("Vez de", heroi[escolha_heroi - 1].nome,"atacar!")
@@ -103,21 +109,38 @@ def SOT():
                 print("\nO ataque de", heroi[escolha_heroi - 1].nome,"agora é de", heroi[escolha_heroi - 1].atack * 3,"pontos\n")
             elif vez_jogador > 3:
                 vilao[escolha_vilao - 1].vida -= heroi[escolha_heroi - 1].atack * 3
-            print("Vida", vilao[escolha_vilao - 1].nome,":", vilao[escolha_vilao - 1].vida)
+            print("Vida", vilao[escolha_vilao - 1].nome,":", vilao[escolha_vilao - 1].vida, "\n")
+            
+            if heroi[escolha_heroi - 1].vida > 0 and heroi[escolha_heroi - 1].vida < 25 and heroi[escolha_heroi - 1].pocao > 0 and vilao[escolha_vilao - 1].vida > 0:
+                print("Vida", heroi[escolha_heroi - 1].nome,":", heroi[escolha_heroi - 1].vida)
+                print(heroi[escolha_heroi - 1].nome, "tem", heroi[escolha_heroi - 1].pocao, "poções\n")
+                while True:
+                    print("Deseja usar uma?")
+                    pocao = str(input("> "))
+                    if pocao == 'SIM' or pocao == 'Sim' or pocao == 'sim' or pocao == 'S' or pocao == 's':
+                        heroi[escolha_heroi - 1].vida += 15
+                        heroi[escolha_heroi - 1].pocao -= 1
+                        print("Vida", heroi[escolha_heroi - 1].nome,":", heroi[escolha_heroi - 1].vida)
+                        print(heroi[escolha_heroi - 1].nome, "tem", heroi[escolha_heroi - 1].pocao, "poções")
+                        break
+                    elif pocao == 'NÃO' or pocao == 'Não' or pocao == 'não' or pocao == 'N' or pocao == 'n':
+                        break
+                    else:
+                        print("Entrada Invalida!\n")
         
         elif opcao == cpu:
             #EMPATE
-            print("Empate! Tente novamente.")
+            print("Empate! Tente novamente.\n")
             if vez_CPU == 1:
                 vez_CPU = 0
             elif vez_CPU > 1:
                 vez_CPU = 0
-                print("O ataque de", vilao[escolha_vilao - 1].nome,"voltou a ser 5")
+                print("O ataque de", vilao[escolha_vilao - 1].nome,"voltou a ser 5\n")
             if vez_jogador == 1:
                 vez_jogador = 0
             elif vez_jogador > 1:
                 vez_jogador = 0
-                print("O ataque de", heroi[escolha_heroi - 1].nome, "voltou a ser 5")
+                print("O ataque de", heroi[escolha_heroi - 1].nome, "voltou a ser 5\n")
         
         elif cpu == 1 and opcao == 3 or cpu == 2 and opcao == 1 or cpu == 3 and opcao == 2:
             #JOGADOR PERDEU!
@@ -138,7 +161,20 @@ def SOT():
                 print("\nO ataque de", vilao[escolha_vilao - 1].nome,"agora é de", vilao[escolha_vilao - 1].atack * 3,"pontos\n")
             elif vez_CPU > 3:
                 heroi[escolha_heroi - 1].vida -= vilao[escolha_vilao - 1].atack * 3
-            print("Vida", heroi[escolha_heroi - 1].nome,":", heroi[escolha_heroi - 1].vida)
+            print("Vida", heroi[escolha_heroi - 1].nome,":", heroi[escolha_heroi - 1].vida, "\n")
+
+            if vilao[escolha_vilao - 1].vida > 0 and vilao[escolha_vilao - 1].vida < 25 and vilao[escolha_vilao - 1].pocao > 0 and heroi[escolha_heroi - 1].vida:
+                pocao = randint(1, 2)
+                if pocao == 1:
+                    print(vilao[escolha_vilao - 1].nome,"usou 1 poção\n")
+                    vilao[escolha_vilao - 1].vida += 15
+                    vilao[escolha_vilao - 1].pocao -= 1
+                    print("Vida", vilao[escolha_vilao - 1].nome,":", vilao[escolha_vilao - 1].vida)
+                    print(vilao[escolha_vilao - 1].nome,"tem", vilao[escolha_vilao - 1].pocao,"poção")
+                elif pocao == 2:
+                    print(vilao[escolha_vilao - 1].nome,"tem", vilao[escolha_vilao - 1].pocao,"poção")
+        if heroi[escolha_heroi - 1].vida <= 0 or vilao[escolha_vilao - 1].vida <= 0:
+            break
 
 def Main():
     Inicio()
