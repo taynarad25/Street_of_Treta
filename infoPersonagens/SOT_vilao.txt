@@ -1,0 +1,4 @@
+Gigante|50|2|5
+Martin Prudente|50|2|5
+Demonio Rubro|50|2|5
+Morte|50|2|5

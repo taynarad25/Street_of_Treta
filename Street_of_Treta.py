@@ -31,6 +31,8 @@ def Inicio():
             break
         else:
             print("Entrada Invalida!")
+    time.sleep(0.5)
+
 
 def SOT():
     while True:
@@ -40,7 +42,7 @@ def SOT():
         
         while True:
             print("Escolha um Heroi:")
-            for i in range(10):
+            for i in range(len(heroi)):
                 print(i+1, "-", heroi[i].nome)
             escolha_heroi = int(input('> '))
             if escolha_heroi < 1 or escolha_heroi > 10:
@@ -51,7 +53,7 @@ def SOT():
         
         while True:
             print("Escolha um Vilão:")
-            for i in range(4):
+            for i in range(len(vilao)):
                 print(i+1, "-", vilao[i].nome)
             escolha_vilao = int(input("> "))
             if escolha_vilao < 1 or escolha_vilao > 4:
@@ -200,7 +202,7 @@ def Main():
     SOT()
 
 heroi = []
-arquivo = open("SOT_heroi.txt", "r", encoding="utf8")
+arquivo = open("infoPersonagens/SOT_heroi.txt", "r", encoding="utf8")
 linha = arquivo.readlines()
 dado1 = []
 for i in range(len(linha)):
@@ -213,7 +215,7 @@ for i in range(len(linha)):
 arquivo.close()
 
 vilao = []
-arquivo = open("SOT_vilao.txt", "r", encoding="utf8")
+arquivo = open("infoPersonagens/SOT_vilao.txt", "r", encoding="utf8")
 linha = arquivo.readlines()
 dado2 = []
 for i in range(len(linha)):
@@ -224,9 +226,5 @@ for i in range(len(linha)):
     dado2.append(int(coluna[3]))
     vilao.append(Personagem(nome, dado2[0], dado2[1], dado2[2]))
 arquivo.close()
-vilao.append(Personagem("Gigante", 50 , 2, 5))
-vilao.append(Personagem("Martin Prudente", 50 , 2, 5))
-vilao.append(Personagem("Demonio Rubro", 50 , 2, 5))
-vilao.append(Personagem("Morte", 50 , 2, 5))
 
 Main()
