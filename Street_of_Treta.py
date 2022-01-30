@@ -200,18 +200,30 @@ def Main():
     SOT()
 
 heroi = []
-heroi.append(Personagem("Bill", 50 , 2, 5))
-heroi.append(Personagem("C2", 50 , 2, 5))
-heroi.append(Personagem("Jumpsbare", 50 , 2, 5))
-heroi.append(Personagem("Lucyfilho", 50 , 2, 5))
-heroi.append(Personagem("Átomo", 50 , 2, 5))
-heroi.append(Personagem("Alien", 50 , 2, 5))
-heroi.append(Personagem("BLUEman", 50, 2, 5))
-heroi.append(Personagem("Xerife Maluvido", 50 , 2, 5))
-heroi.append(Personagem("Árvore", 50 , 2, 5))
-heroi.append(Personagem("Dracoman", 50 , 2, 5))
+arquivo = open("SOT_heroi.txt", "r", encoding="utf8")
+linha = arquivo.readlines()
+dado1 = []
+for i in range(len(linha)):
+    coluna = linha[i].split('|')
+    nome = coluna[0]
+    dado1.append(int(coluna[1]))
+    dado1.append(int(coluna[2]))
+    dado1.append(int(coluna[3]))
+    heroi.append(Personagem(nome, dado1[0], dado1[1], dado1[2]))
+arquivo.close()
 
 vilao = []
+arquivo = open("SOT_vilao.txt", "r", encoding="utf8")
+linha = arquivo.readlines()
+dado2 = []
+for i in range(len(linha)):
+    coluna = linha[i].split('|')
+    nome = coluna[0]
+    dado2.append(int(coluna[1]))
+    dado2.append(int(coluna[2]))
+    dado2.append(int(coluna[3]))
+    vilao.append(Personagem(nome, dado2[0], dado2[1], dado2[2]))
+arquivo.close()
 vilao.append(Personagem("Gigante", 50 , 2, 5))
 vilao.append(Personagem("Martin Prudente", 50 , 2, 5))
 vilao.append(Personagem("Demonio Rubro", 50 , 2, 5))
