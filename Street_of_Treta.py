@@ -33,8 +33,19 @@ def Inicio():
             print("Entrada Invalida!")
     time.sleep(0.5)
 
-
 def SOT():
+    while True:
+        print("Deseja continuar o jogo anterior?")
+        continuar = input(str("> "))
+        if continuar == 'SIM' or continuar == 'Sim' or continuar == 'sim' or continuar == 'S' or continuar == 's':
+            break
+        elif continuar == 'NÃO' or continuar == 'Não' or continuar == 'não' or continuar == 'N' or continuar == 'n':
+            Novo()
+            Salvar()
+            break
+        else:
+            print("Entrada Invalida!\n")
+        
     while True:
         rodada = 0
         vez_CPU = 0
@@ -185,7 +196,18 @@ def SOT():
             print(vilao[escolha_vilao - 1].nome, "morreu. Você ganhou!")
 
         print("Rodadas Jogadas:", rodada)
-        
+        while True:
+            print("Deseja salvar o jogo?")
+            salvar = input(str("> "))
+            
+            if salvar == 'NÃO' or salvar == 'Não' or salvar == 'não' or salvar == 'n' or salvar == 'N':
+                break
+            elif salvar == 'SIM' or salvar == 'Sim' or salvar == 'sim' or salvar == 's' or salvar == 'S':
+                Salvar()
+                break
+            else:
+                print("Entrada Invalida!\n")
+
         while True:
             print("Deseja jogar novamente?")
             novamente = str(input("> "))
@@ -195,36 +217,75 @@ def SOT():
             elif novamente == "NÃO" or novamente == "Não" or novamente == "não" or novamente == "N" or novamente == "n":
                 sys.exit()
             else:
-                print("")
+                print("Entrada Invalida!\n")
     
 def Main():
     Inicio()
+    Criar_personagens()
     SOT()
 
-heroi = []
-arquivo = open("infoPersonagens/SOT_heroi.txt", "r", encoding="utf8")
-linha = arquivo.readlines()
-dado1 = []
-for i in range(len(linha)):
-    coluna = linha[i].split('|')
-    nome = coluna[0]
-    dado1.append(int(coluna[1]))
-    dado1.append(int(coluna[2]))
-    dado1.append(int(coluna[3]))
-    heroi.append(Personagem(nome, dado1[0], dado1[1], dado1[2]))
-arquivo.close()
+def Novo():
+    info = open("infoPersonagens/valores_iniciais.txt", encoding="utf8")
+    linha = info.readline()
+    info.close()
+    coluna = linha.split("|")
+    vida = int(coluna[0])
+    pocao = int(coluna[1])
+    atack = int(coluna[2])
+    for i in range(len(heroi)):
+        heroi[i].vida = vida
+        heroi[i].pocao = pocao
+        heroi[i].atack = atack
+    for i in range(len(vilao)):
+        vilao[i].vida = vida
+        vilao[i].pocao = pocao
+        vilao[i].atack = atack
 
+def Salvar():
+    arquivo1 = open("infoPersonagens/SOT_heroi.txt", "w", encoding="utf8")
+    for i in range(len(heroi)):
+        nome = str(heroi[i].nome)
+        vida = str(heroi[i].vida)
+        pocao = str(heroi[i].pocao)
+        atack = str(heroi[i].atack)
+        concatenado1 = nome + "|" + vida + "|" + pocao + "|" + atack + "\n"
+        arquivo1.write(concatenado1)
+    arquivo1.close()
+    arquivo2 = open("infoPersonagens/SOT_vilao.txt", "w", encoding="utf8")
+    for i in range(len(vilao)):
+        nome = str(vilao[i].nome)
+        vida = str(vilao[i].vida)
+        pocao = str(vilao[i].pocao)
+        atack = str(vilao[i].atack)
+        concatenado2 = nome + "|" + vida + "|" + pocao + "|" + atack + "\n"
+        arquivo2.write(concatenado2)
+    arquivo2.close()    
+
+heroi = []
 vilao = []
-arquivo = open("infoPersonagens/SOT_vilao.txt", "r", encoding="utf8")
-linha = arquivo.readlines()
-dado2 = []
-for i in range(len(linha)):
-    coluna = linha[i].split('|')
-    nome = coluna[0]
-    dado2.append(int(coluna[1]))
-    dado2.append(int(coluna[2]))
-    dado2.append(int(coluna[3]))
-    vilao.append(Personagem(nome, dado2[0], dado2[1], dado2[2]))
-arquivo.close()
+def Criar_personagens():
+    arquivo1 = open("infoPersonagens/SOT_heroi.txt", "r", encoding="utf8")
+    linha = arquivo1.readlines()
+    for i in range(len(linha)):
+        dado1 = []
+        coluna = linha[i].split("|")
+        nome = coluna[0]
+        dado1.append(int(coluna[1]))
+        dado1.append(int(coluna[2]))
+        dado1.append(int(coluna[3]))
+        heroi.append(Personagem(nome, dado1[0], dado1[1], dado1[2]))
+    arquivo1.close()
+
+    arquivo2 = open("infoPersonagens/SOT_vilao.txt", "r", encoding="utf8")
+    linha = arquivo2.readlines()
+    for i in range(len(linha)):
+        dado2 = []
+        coluna = linha[i].split("|")
+        nome = coluna[0]
+        dado2.append(int(coluna[1]))
+        dado2.append(int(coluna[2]))
+        dado2.append(int(coluna[3]))
+        vilao.append(Personagem(nome, dado2[0], dado2[1], dado2[2]))
+    arquivo2.close()
 
 Main()
