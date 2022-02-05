@@ -12,7 +12,7 @@ class Personagem:
 def Inicio():
     print("* * * * * * * * * * *")
     print("*                   *")
-    print("*  STRET OF TRETA   *")
+    print("*  STREET OF TRETA  *")
     print("*                   *")
     print("* * * * * * * * * * *")
     while True:
@@ -56,7 +56,7 @@ def SOT():
             for i in range(len(heroi)):
                 print(i+1, "-", heroi[i].nome)
             escolha_heroi = int(input('> '))
-            if escolha_heroi < 1 or escolha_heroi > 10:
+            if escolha_heroi < 1 or escolha_heroi > 10 or heroi[escolha_heroi - 1].vida <= 0:
                 print("Entrada Invalida!\n")
             else:
                 print("")
@@ -67,7 +67,7 @@ def SOT():
             for i in range(len(vilao)):
                 print(i+1, "-", vilao[i].nome)
             escolha_vilao = int(input("> "))
-            if escolha_vilao < 1 or escolha_vilao > 4:
+            if escolha_vilao < 1 or escolha_vilao > 4 or heroi[escolha_heroi - 1].vida <= 0:
                 print("Entrada Invalida!\n")
             else:
                 print("")
