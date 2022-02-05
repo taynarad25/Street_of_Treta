@@ -58,6 +58,8 @@ def SOT():
             escolha_heroi = int(input('> '))
             if escolha_heroi < 1 or escolha_heroi > 10 or heroi[escolha_heroi - 1].vida <= 0:
                 print("Entrada Invalida!\n")
+                if heroi[escolha_heroi - 1].vida <= 0:
+                    print("Esse personagem está morto!")
             else:
                 print("")
                 break
@@ -69,6 +71,8 @@ def SOT():
             escolha_vilao = int(input("> "))
             if escolha_vilao < 1 or escolha_vilao > 4 or heroi[escolha_heroi - 1].vida <= 0:
                 print("Entrada Invalida!\n")
+                if heroi[escolha_heroi - 1].vida <= 0:
+                    print("Esse personagem está morto!")
             else:
                 print("")
                 break
