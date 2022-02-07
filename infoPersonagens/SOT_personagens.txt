@@ -1,5 +1,5 @@
-Bill|40|2|5
-C2|-12|2|5
+Bill|50|2|5
+C2|50|2|5
 Jumpsbare|50|2|5
 Lucyfilho|50|2|5
 Átomo|50|2|5
