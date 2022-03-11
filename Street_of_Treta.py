@@ -19,7 +19,7 @@ def Inicio():
         print("\nDeseja ler as instruções?")
         instrucoes = str(input("> "))
         if instrucoes == 'SIM' or instrucoes == 'Sim' or instrucoes == 'sim' or instrucoes == 'S' or instrucoes == 's':
-            print("\n• O jogo se resume em Pedra, Papel e Tesoura.\n• Os personagem começam com 50 pontos de vida, 5 pontos de ataque e 2 poções.\n• Ao utilizar uma poção, sua vida aumenta 15 pontos.\n• Ao ganhar 2x consecutivas, o ataque passa a ser 6.\n• Ao ganhar 3x consecutivas, o ataque passa a ser 15.\n• Ao Empatar o ataque volta a seu valor inicial (5).\n• Quando um dos personagens perde, o ataque volta a seu valor inicial (5)\n")
+            print("\n• O jogo se resume em Pedra, Papel e Tesoura.\n• Os personagem começam com 50 pontos de vida, 5 pontos de ataque e 2 poções.\n• Ao utilizar uma poção, sua vida aumenta 15 pontos.\n• Ao ganhar 2x consecutivas, o ataque passa a ser 6.\n• Ao ganhar 3x consecutivas, o ataque passa a ser 15.\n• Ao Empatar o ataque volta a seu valor inicial (5).\n• Quando um dos personagens perde, o ataque volta a seu valor inicial (5)\n• Quando o empate ocorre 3x seguidas, os dois personagens perdem 5 pontos\n")
             break
         elif instrucoes == 'NÃO' or instrucoes == 'Não' or instrucoes == 'não' or instrucoes == 'N' or instrucoes == 'n':
             print("")
