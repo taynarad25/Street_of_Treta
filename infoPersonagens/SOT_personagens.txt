@@ -1,14 +1,14 @@
-Bill|50|2|5
-C2|50|2|5
-Jumpsbare|50|2|5
-Lucyfilho|50|2|5
-Átomo|50|2|5
-Alien|50|2|5
-BLUEman|50|2|5
-Xerife Maluvido|50|2|5
-Árvore|50|2|5
-Dracoman|50|2|5
-Gigante|50|2|5
-Martin Prudente|50|2|5
-Demonio Rubro|50|2|5
-Morte|50|2|5
+Bill|50|2|5|1|0
+C2|50|2|5|1|0
+Jumpsbare|50|2|5|1|0
+Lucyfilho|50|2|5|1|0
+Átomo|50|2|5|1|0
+Alien|50|2|5|1|0
+BLUEman|50|2|5|1|0
+Xerife Maluvido|50|2|5|1|0
+Árvore|50|2|5|1|0
+Dracoman|50|2|5|1|0
+Gigante|50|2|5|1|0
+Martin Prudente|50|2|5|1|0
+Demonio Rubro|50|2|5|1|0
+Morte|50|2|5|1|0
