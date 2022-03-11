@@ -43,6 +43,7 @@ def SOT():
         
     while True:
         rodada = 0
+        empate = 0
         vez_CPU = 0
         vez_jogador = 0
         
@@ -51,7 +52,7 @@ def SOT():
             for i in range(len(personagem)):
                 print(i+1, "-", personagem[i].nome)
             escolha_personagem1 = int(input('> '))
-            if escolha_personagem1 < 1 or escolha_personagem1 > 10 or personagem[escolha_personagem1 - 1].vida <= 0:
+            if escolha_personagem1 < 1 or escolha_personagem1 > 13 or personagem[escolha_personagem1 - 1].vida <= 0:
                 print("Entrada Invalida!\n")
             elif personagem[escolha_personagem1 - 1].vida <= 0:
                 print("Esse personagem está morto!\n")
@@ -64,7 +65,7 @@ def SOT():
             for i in range(len(personagem)):
                 print(i+1, "-", personagem[i].nome)
             escolha_personagem2 = int(input("> "))
-            if escolha_personagem2 < 1 or escolha_personagem2 > 4 or personagem[escolha_personagem2 - 1].vida <= 0 or escolha_personagem1 == escolha_personagem2:
+            if escolha_personagem2 < 1 or escolha_personagem2 > 13 or personagem[escolha_personagem2 - 1].vida <= 0 or escolha_personagem1 == escolha_personagem2:
                 print("Entrada Invalida!\n")
                 if personagem[escolha_personagem2 - 1].vida <= 0:
                     print("Esse personagem está morto!\n")
@@ -107,6 +108,7 @@ def SOT():
             time.sleep(0.5)
             if opcao == 1 and cpu == 3 or opcao == 2 and cpu == 1 or opcao == 3 and cpu == 2:
                 #JOGADOR GANHOU
+                empate = 0
                 print("Vez de", personagem[escolha_personagem1 - 1].nome,"atacar!")
                 if vez_CPU == 1:
                     vez_CPU = 0
@@ -144,8 +146,14 @@ def SOT():
                             print("Entrada Invalida!\n")
             
             elif opcao == cpu:
+                empate += 1
                 #EMPATE
                 print("Empate! Tente novamente.\n")
+                if empate == 3:
+                    personagem[escolha_personagem1 - 1].vida = personagem[escolha_personagem1 - 1].vida - 5
+                    personagem[escolha_personagem2 - 1].vida = personagem[escolha_personagem2 - 1].vida - 5
+                    print("Vida", personagem[escolha_personagem1 - 1].nome,":", personagem[escolha_personagem1 - 1].vida)
+                    print("Vida", personagem[escolha_personagem2 - 1].nome,":", personagem[escolha_personagem2 - 1].vida)
                 if vez_CPU == 1:
                     vez_CPU = 0
                 elif vez_CPU > 1:
@@ -158,6 +166,7 @@ def SOT():
                     print("O ataque de", personagem[escolha_personagem1 - 1].nome, "voltou a ser 5\n")
             
             elif cpu == 1 and opcao == 3 or cpu == 2 and opcao == 1 or cpu == 3 and opcao == 2:
+                empate+=1
                 #JOGADOR PERDEU!
                 print("Vez de", personagem[escolha_personagem2 - 1].nome,"atacar!")
                 if vez_jogador == 1:
