@@ -256,9 +256,10 @@ def SOT():
             if novamente == "SIM" or novamente == "Sim" or novamente == "sim" or novamente == "S" or novamente == "s":
                 print("")
                 Recarregar_vida()
-                Subir_nivel()
                 if salvar == 'SIM' or salvar == 'Sim' or salvar == 'sim' or salvar == 's' or salvar == 'S':
                     Salvar()
+                elif salvar == 'NÃO' or salvar == 'Não' or salvar == 'não' or salvar == 'n' or salvar == 'N':
+                    Renovar_personagens()
                 break
             elif novamente == "NÃO" or novamente == "Não" or novamente == "não" or novamente == "N" or novamente == "n":
                 sys.exit()
@@ -300,6 +301,19 @@ def Salvar():
         arquivo.write(concatenado)
     arquivo.close()
 
+def Renovar_personagens():
+    arquivo = open("infoPersonagens/SOT_personagens.txt", "r", encoding="utf8")
+    linha = arquivo.readlines()
+    for i in range(len(personagem)):
+        coluna = linha[i].split("|")
+        personagem[i].nome = coluna[0]
+        personagem[i].vida = int(coluna[1])
+        personagem[i].pocao = int(coluna[2])
+        personagem[i].atack = int(coluna[3])
+        personagem[i].nivel = int(coluna[4])
+        personagem[i].ganho = int(coluna[5])
+    arquivo.close()
+
 def Criar_personagens():
     arquivo = open("infoPersonagens/SOT_personagens.txt", "r", encoding="utf8")
     linha = arquivo.readlines()
@@ -321,17 +335,21 @@ def Subir_nivel():
             personagem[i].nivel = 2
             personagem[i].atack = 6
             personagem[i].ganho = 0
+            print(personagem[i].nome, "subiu para o nivel", personagem[i].nivel, "\n")
         elif personagem[i].ganho == 3 and personagem[i].nivel == 2:
             personagem[i].nivel = 3
             personagem[i].atack = 7
             personagem[i].ganho = 0
+            print(personagem[i].nome, "subiu para o nivel", personagem[i].nivel, "\n")
         elif personagem[i].ganho == 4 and personagem[i].nivel == 3:
             personagem[i].nivel = 4
             personagem[i].atack = 8
             personagem[i].ganho = 0
+            print(personagem[i].nome, "subiu para o nivel", personagem[i].nivel, "\n")
         elif personagem[i].ganho == 5 and personagem[i].nivel == 4:
             personagem[i].nivel = 5
             personagem[i].atack = 9
             personagem[i].ganho = 0
+            print(personagem[i].nome, "subiu para o nivel", personagem[i].nivel, "\n")
 
 Main()
