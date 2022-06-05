@@ -20,44 +20,29 @@ def Inicio():
     print("* * * * * * * * * * *")
     while True:
         print("\nDeseja ler as instruções?")
-        instrucoes = str(input("> "))
+        try:
+            instrucoes = str(input("> "))
+        except:
+            print("Entrada Invalida!")
         if instrucoes == 'SIM' or instrucoes == 'Sim' or instrucoes == 'sim' or instrucoes == 'S' or instrucoes == 's':
             print("\nINSTRUÇÕES INICIAIS\n")
-            time.sleep(0.5)
             print("• O jogo se resume em Pedra, Papel e Tesoura.")
-            time.sleep(0.5)
             print("• Os personagem começam no nível 1.")
-            time.sleep(0.5)
             print("• Ao utilizar uma poção, sua vida aumenta 15 pontos.")
-            time.sleep(0.5)
             print("• Ao ganhar 2x consecutivas, o ataque inicial passa a ser somado a 1.")
-            time.sleep(0.5)
             print("• Ao ganhar 3x consecutivas, o ataque inicial passa a ser multiplicado por 3.")
-            time.sleep(0.5)
             print("• Ao Empatar o ataque volta ao valor inicial.")
-            time.sleep(0.5)
             print("• Quando um dos personagens perde, o ataque volta a seu valor inicial")
-            time.sleep(0.5)
             print("\nMUDANÇA DE NÍVEL\n")
-            time.sleep(0.5)
             print("• Se um personagem de nível 1 sobreviver a 2 batalhas, ele avança para o nível 2")
-            time.sleep(0.5)
             print("• Se um personagem de nível 2 sobreviver a 3 batalhas, ele avança para o nível 3")
-            time.sleep(0.5)
             print("• Se um personagem de nível 3 sobreviver a 4 batalhas, ele avança para o nível 4")
-            time.sleep(0.5)
             print("• Se um personagem de nível 4 sobreviver a 5 batalhas, ele avança para o nível 5")
-            time.sleep(0.5)
             print("\nNÍVEIS\n")
-            time.sleep(0.5)
             print("• Nível 1\n  > Vida: 50\n  > Poção: 2\n  > Ataque: 5\n")
-            time.sleep(0.5)
             print("• Nível 2\n  > Vida: 55\n  > Poção: 2\n  > Ataque: 6\n")
-            time.sleep(0.5)
             print("• Nível 3\n  > Vida: 60\n  > Poção: 3\n  > Ataque: 7\n")
-            time.sleep(0.5)
             print("• Nível 4\n  > Vida: 65\n  > Poção: 3\n  > Ataque: 8\n")
-            time.sleep(0.5)
             print("• Nível 5\n  > Vida: 70\n  > Poção: 4\n  > Ataque: 9\n")
             break
         elif instrucoes == 'NÃO' or instrucoes == 'Não' or instrucoes == 'não' or instrucoes == 'N' or instrucoes == 'n':
@@ -92,7 +77,10 @@ def Recarregar_pocao():
 def SOT():
     while True:
         print("Deseja continuar o jogo anterior?")
-        continuar = input(str("> "))
+        try:
+            continuar = input(str("> "))
+        except:
+            print("Entrada Invalida!")
         if continuar == 'SIM' or continuar == 'Sim' or continuar == 'sim' or continuar == 'S' or continuar == 's':
             break
         elif continuar == 'NÃO' or continuar == 'Não' or continuar == 'não' or continuar == 'N' or continuar == 'n':
@@ -112,7 +100,10 @@ def SOT():
             print("\nEscolha um personagem:")
             for i in range(len(personagem)):
                 print(i+1, "-", personagem[i].nome)
-            escolha_personagem1 = int(input('> '))
+            try:
+                escolha_personagem1 = int(input('> '))
+            except:
+                print("Entrada Invalida!")
             if escolha_personagem1 < 1 or escolha_personagem1 > 14 or personagem[escolha_personagem1 - 1].vida <= 0:
                 print("Entrada Invalida!\n")
             elif personagem[escolha_personagem1 - 1].vida <= 0:
@@ -125,7 +116,10 @@ def SOT():
             print("Escolha outro personagem:")
             for i in range(len(personagem)):
                 print(i+1, "-", personagem[i].nome)
-            escolha_personagem2 = int(input("> "))
+            try:
+                escolha_personagem2 = int(input("> "))
+            except:
+                print("Entrada Invalida!")
             if escolha_personagem2 < 1 or escolha_personagem2 > 14 or personagem[escolha_personagem2 - 1].vida <= 0 or escolha_personagem1 == escolha_personagem2:
                 print("Entrada Invalida!\n")
                 if personagem[escolha_personagem2 - 1].vida <= 0:
@@ -146,12 +140,16 @@ def SOT():
             print("* * * * * * * *\n")
             
             while True:
-                print("Escolha uma das opções:")
+                print("\nEscolha uma das opções:")
                 print("1 - Pedra")
                 print("2 - Papel")
                 print("3 - Tesoura")
                 print("0 - Sair")
-                opcao = int(input("> "))
+                try:
+                    opcao = int(input("> "))
+                except:
+                    print("Entrada Invalida!")
+                    continue
                 if opcao < 0 or opcao > 3:
                     print("Entrada Invalida!\n")
                 elif opcao == 0:
@@ -194,7 +192,10 @@ def SOT():
                     print(personagem[escolha_personagem1 - 1].nome, "tem", personagem[escolha_personagem1 - 1].pocao, "poções\n")
                     while True:
                         print("Deseja usar uma?")
-                        pocao = str(input("> "))
+                        try:
+                            pocao = str(input("> "))
+                        except:
+                            print("Entrada Invalida!")
                         if pocao == 'SIM' or pocao == 'Sim' or pocao == 'sim' or pocao == 'S' or pocao == 's':
                             personagem[escolha_personagem1 - 1].vida += 15
                             personagem[escolha_personagem1 - 1].pocao -= 1
@@ -276,8 +277,10 @@ def SOT():
         Recarregar_pocao()
         while True:
             print("Deseja salvar o jogo?")
-            salvar = input(str("> "))
-            
+            try:
+                salvar = input(str("> "))
+            except:
+                print("Entrada Invalida!")
             if salvar == 'NÃO' or salvar == 'Não' or salvar == 'não' or salvar == 'n' or salvar == 'N':
                 break
             elif salvar == 'SIM' or salvar == 'Sim' or salvar == 'sim' or salvar == 's' or salvar == 'S':
@@ -288,7 +291,10 @@ def SOT():
 
         while True:
             print("Deseja jogar novamente?")
-            novamente = str(input("> "))
+            try:
+                novamente = str(input("> "))
+            except:
+                print("Entrada Invalida!")
             if novamente == "SIM" or novamente == "Sim" or novamente == "sim" or novamente == "S" or novamente == "s":
                 print("")
                 Recarregar_vida()
