@@ -29,6 +29,7 @@ def Inicio():
             print("• O jogo se resume em Pedra, Papel e Tesoura.")
             print("• Os personagem começam no nível 1.")
             print("• Ao utilizar uma poção, sua vida aumenta 15 pontos.")
+            print("• Você poderá usar uma poção quando sua vida for menor que 25 pontos.")
             print("• Ao ganhar 2x consecutivas, o ataque inicial passa a ser somado a 1.")
             print("• Ao ganhar 3x consecutivas, o ataque inicial passa a ser multiplicado por 3.")
             print("• Ao Empatar o ataque volta ao valor inicial.")
