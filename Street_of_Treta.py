@@ -4,13 +4,13 @@ import time
 
 personagem = []
 class Personagem:
-    def __init__(self, nome, vida, pocao, atack, nivel, ganho):
+    def __init__(self, nome, vida, pocao, atack, nivel, vitoria):
         self.nome = nome
         self.vida = vida
         self.pocao = pocao
         self.atack = atack
         self.nivel = nivel
-        self.ganho = ganho
+        self.vitoria = vitoria
 
 def Inicio():
     print("* * * * * * * * * * *")
@@ -172,7 +172,7 @@ def SOT():
                 print(personagem[escolha[1] - 1].nome, ": Tesoura\n")
             time.sleep(0.5)
             if opcao == 1 and cpu == 3 or opcao == 2 and cpu == 1 or opcao == 3 and cpu == 2:
-                #JOGADOR GANHOU
+                #JOGADOR vitoriaU
                 print("Vez de", personagem[escolha[0] - 1].nome,"atacar!")
                 empate = 0
                 if vez_CPU == 1:
@@ -271,12 +271,12 @@ def SOT():
                 break
         if personagem[escolha[0] - 1].vida <= 0:
             print(personagem[escolha[0] - 1].nome, "morreu. Você perdeu!")
-            personagem[escolha[1] - 1].ganho += 1
-            personagem[escolha[0] - 1].ganho = 0
+            personagem[escolha[1] - 1].vitoria += 1
+            personagem[escolha[0] - 1].vitoria = 0
         elif personagem[escolha[1] - 1].vida <= 0:
-            print(personagem[escolha[1] - 1].nome, "morreu. Você ganhou!")
-            personagem[escolha[0] - 1].ganho += 1
-            personagem[escolha[1] - 1].ganho = 0
+            print(personagem[escolha[1] - 1].nome, "morreu. Você vitoriau!")
+            personagem[escolha[0] - 1].vitoria += 1
+            personagem[escolha[1] - 1].vitoria = 0
 
         print("Rodadas Jogadas:", rodada)
 
@@ -323,13 +323,13 @@ def Novo():
     pocao = int(coluna[1])
     atack = int(coluna[2])
     nivel = int(coluna[3])
-    ganho = int(coluna[4])
+    vitoria = int(coluna[4])
     for i in range(len(personagem)):
         personagem[i].vida = vida
         personagem[i].pocao = pocao
         personagem[i].atack = atack
         personagem[i].nivel = nivel
-        personagem[i].ganho = ganho
+        personagem[i].vitoria = vitoria
 
 def Salvar():
     arquivo = open("infoPersonagens/SOT_personagens.txt", "w", encoding="utf8")
@@ -339,8 +339,8 @@ def Salvar():
         pocao = str(personagem[i].pocao)
         atack = str(personagem[i].atack)
         nivel = str(personagem[i].nivel)
-        ganho = str(personagem[i].ganho)
-        concatenado = nome + "|" + vida + "|" + pocao + "|" + atack + "|" + nivel + "|" + ganho +"\n"
+        vitoria = str(personagem[i].vitoria)
+        concatenado = nome + "|" + vida + "|" + pocao + "|" + atack + "|" + nivel + "|" + vitoria +"\n"
         arquivo.write(concatenado)
     arquivo.close()
 
@@ -354,7 +354,7 @@ def Renovar_personagens():
         personagem[i].pocao = int(coluna[2])
         personagem[i].atack = int(coluna[3])
         personagem[i].nivel = int(coluna[4])
-        personagem[i].ganho = int(coluna[5])
+        personagem[i].vitoria = int(coluna[5])
     arquivo.close()
 
 def Criar_personagens():
@@ -374,7 +374,7 @@ def Criar_personagens():
 
 def Subir_nivel():
     for i in range(len(personagem)):
-        if personagem[i].ganho >= personagem[i].nivel:
+        if personagem[i].vitoria >= personagem[i].nivel:
             personagem[i].nivel += 1
             print(personagem[i].nome, "subiu para o nivel", personagem[i].nivel, "\n")
     Atualizar_pocao()
