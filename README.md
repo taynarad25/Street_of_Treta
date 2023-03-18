@@ -31,7 +31,7 @@ Busco fazer uma interface gráfica ainda. Então aguarde por mudanças :)
     * Entra em um novo laço, para saber se o usuário deseja salvar o jogo. Se sim, ele chama a função.
     * Entra em outro laço, para saber se o usuário deseja jogar novamente. Se sim, ele continua, se não ele encerra o jogo.
 #### `def Main()`:
-* Função "menu", chama as funções `Inicio`, `Criar_personagens` e `SOT`.
+* Função "menu", chama as funções *`Inicio`*, *`Criar_personagens`* e *`SOT`*.
 #### `def Novo()`:
 * Abre o arquivo que contem os valores iniciais e atualiza todos os personagens, substituindo os dados anteriores.
 #### `def Salvar()`:
