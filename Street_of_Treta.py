@@ -57,22 +57,23 @@ def Inicio():
 
 def Atualizar_vida():
     for i in range(len(personagem)):
-        if personagem[i].vida > 0 and personagem[i].nivel >= 1 and personagem[i].vida < 50 + ((personagem[i].nivel - 1) * 5):
-            personagem[i].vida = 50 + ((personagem[i].nivel - 1) * 5)
+        vida = 50 + ((personagem[i].nivel - 1) * 5)
+        if personagem[i].vida > 0 and personagem[i].vida < vida:
+            personagem[i].vida = vida
 
 def Atualizar_atack():
     for i in range(len(personagem)):
-        if personagem[i].atack > 0 and personagem[i].nivel >= 1 and personagem[i].atack < 5 + (personagem[i].nivel - 1):
-            personagem[i].atack = 5 + (personagem[i].nivel - 1)
+        atack = 5 + (personagem[i].nivel - 1)
+        if personagem[i].atack > 0 and personagem[i].atack < atack:
+            personagem[i].atack = atack
 
 def Atualizar_pocao():
     for i in range(len(personagem)):
-        if personagem[i].vida > 0 and personagem[i].nivel <= 1 and personagem[i].pocao != 2:
+        pocao = 2 + (personagem[i].nivel - 1) // 2
+        if personagem[i].vida > 0 and personagem[i].nivel == 1 and personagem[i].pocao != 2:
            personagem[i].pocao = 2
-        elif personagem[i].vida <= 0:
-            continue
-        elif personagem[i].vida > 0 and personagem[i].nivel > 1 and personagem[i].pocao < 2 + (personagem[i].nivel - 1) // 2:
-            personagem[i].pocao = 2 + (personagem[i].nivel - 1) // 2
+        elif personagem[i].vida > 0 and personagem[i].nivel > 1 and personagem[i].pocao < pocao:
+            personagem[i].pocao = pocao
 
 def Escolha_personagem(escolha):
     while True:
@@ -172,7 +173,7 @@ def SOT():
                 print(personagem[escolha[1] - 1].nome, ": Tesoura\n")
             time.sleep(0.5)
             if opcao == 1 and cpu == 3 or opcao == 2 and cpu == 1 or opcao == 3 and cpu == 2:
-                #JOGADOR vitoriaU
+                #JOGADOR GANHOU!
                 print("Vez de", personagem[escolha[0] - 1].nome,"atacar!")
                 empate = 0
                 if vez_CPU == 1:
@@ -274,7 +275,7 @@ def SOT():
             personagem[escolha[1] - 1].vitoria += 1
             personagem[escolha[0] - 1].vitoria = 0
         elif personagem[escolha[1] - 1].vida <= 0:
-            print(personagem[escolha[1] - 1].nome, "morreu. Você vitoriau!")
+            print(personagem[escolha[1] - 1].nome, "morreu. Você ganhou!")
             personagem[escolha[0] - 1].vitoria += 1
             personagem[escolha[1] - 1].vitoria = 0
 
@@ -342,19 +343,6 @@ def Salvar():
         vitoria = str(personagem[i].vitoria)
         concatenado = nome + "|" + vida + "|" + pocao + "|" + atack + "|" + nivel + "|" + vitoria +"\n"
         arquivo.write(concatenado)
-    arquivo.close()
-
-def Renovar_personagens():
-    arquivo = open("infoPersonagens/SOT_personagens.txt", "r", encoding="utf8")
-    linha = arquivo.readlines()
-    for i in range(len(personagem)):
-        coluna = linha[i].split("|")
-        personagem[i].nome = coluna[0]
-        personagem[i].vida = int(coluna[1])
-        personagem[i].pocao = int(coluna[2])
-        personagem[i].atack = int(coluna[3])
-        personagem[i].nivel = int(coluna[4])
-        personagem[i].vitoria = int(coluna[5])
     arquivo.close()
 
 def Criar_personagens():
