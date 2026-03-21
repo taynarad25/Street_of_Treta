@@ -1,7 +1,7 @@
 from random import randint
 import sys
 import time
-
+# Adicionar comentário para a atividade da faculdade
 personagem = []
 class Personagem:
     def __init__(self, nome, vida, pocao, atack, nivel, vitoria):
@@ -126,7 +126,7 @@ def SOT():
             break
         else:
             print("Entrada Invalida!\n")
-
+# Adicionar comentário para a atividade da faculdade
     while True:
         rodada = 0
         empate = 0
@@ -331,7 +331,7 @@ def Novo():
         personagem[i].atack = atack
         personagem[i].nivel = nivel
         personagem[i].vitoria = vitoria
-
+# Adicionar comentário para a atividade da faculdade
 def Salvar():
     arquivo = open("infoPersonagens/SOT_personagens.txt", "w", encoding="utf8")
     for i in range(len(personagem)):
@@ -368,5 +368,6 @@ def Subir_nivel():
     Atualizar_pocao()
     Atualizar_atack()
     Atualizar_vida()
-
+# Adicionar comentário para a atividade da faculdade
 Main()
+# Adicionar comentário para a atividade da faculdade
