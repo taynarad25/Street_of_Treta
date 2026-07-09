@@ -9,6 +9,8 @@ Busco fazer uma interface gráfica ainda. Então aguarde por mudanças :)
 
 ### Um pouco sobre as funções:
 
+#### `def confirmar(pergunta)`:
+* Helper usado por todo o jogo para perguntas de sim/não (aceita `sim`/`s`/`não`/`nao`/`n`, em qualquer capitalização). Repete a pergunta até receber uma resposta válida.
 #### `def Inicio()`:
 * Apresenta as informações do jogo, instruções para melhor entendimento.
 #### `def Atualizar_vida()`:
@@ -19,17 +21,22 @@ Busco fazer uma interface gráfica ainda. Então aguarde por mudanças :)
 * Calcula e atualiza a poção do personagem de acordo com seu nível. Se o personagem estiver vivo e a poção for diferente de 2 ou a poção for menor que **`2 + (personagem[i].nivel - 1) // 2`**.
 #### `def Escolha_personagem(escolha)`:
 * Apresenta os personagens disponíveis e possibilita a escolha de dois desses personagens. Só é possível escolher um personagem que esteja vivo e não pode escolher o mesmo personagem duas vezes.
+#### `def escolher_jogada()`:
+* Apresenta o menu Pedra/Papel/Tesoura/Sair e retorna a opção escolhida pelo jogador.
+#### `def calcular_bonus_ataque(contador)` e `def aplicar_ataque(atacante_idx, defensor_idx, contador)`:
+* Calculam o bônus de dano por vitórias consecutivas (+1 na 2ª vitória seguida, +10 da 3ª em diante) e aplicam o dano ao personagem defensor, usados tanto quando o jogador ataca quanto quando a CPU ataca.
+#### `def resetar_combo(contador, idx)`:
+* Zera o contador de vitórias consecutivas de um personagem, avisando quando o ataque volta ao valor normal.
+#### `def tentar_usar_pocao_jogador(idx_jogador, idx_oponente)` e `def tentar_usar_pocao_cpu(idx_cpu, idx_oponente)`:
+* Quando a vida está abaixo de 25 e há poções disponíveis, oferecem o uso ao jogador (pergunta) ou decidem automaticamente pela CPU (50% de chance).
+#### `def jogar_rodada(escolha, contadores)`:
+* Resolve uma rodada de Pedra/Papel/Tesoura: pega a jogada do jogador e sorteia a da CPU, decide quem venceu (ou empate) e aplica ataque/poção/combo de acordo com o resultado.
 #### `SOT()`:
 * Aqui é onde a mágica acontece:
-    * O primeiro laço de repetição *(linha 115)*, pergunta se o usuário irá continuar um jogo anterior. Se sim, ele contiua. Se não, ele atualiza os dados dos jogadores e salva.
-    * O segundo laço de repetição *(linha 130)*, inicia o jogo, inicializando as váriaveis necessárias, chama a função `Escolha_personagem`.
-    * Temos um segundo laço de repetições, que é necessário para contar as rodadas, esse laço para quando um dos personagens morre *(`vida <= 0`)*.
-    * Em outro laço, temos as escolhas das opções. Após temos a aleatorização da escolha das opções do outro personagem.
-    * Então chegamos nas condições para saber quando o usuário ganhou ou perdeu. Aqui também são definidas as regras, como, quantas vezes seguidas o personagem já ganhou, se o ataque dele foi resetado, ou se ele teve seus bônus por ganhar algumas vezes consecutivas.
-    * Nas linhas 197 e  260, temos o início do uso das funções, onde nas linhas 197 à 215, é a poção do usuário. Ele pode usar a poção quando a vida está menor que 25. E tem uma quantidade certa de poção por nível. E nas linhas 260 à 269, é a aleatorização da escolha do personagem 2, ele também só pode usar a poção quando a vida está menor que 25 e tem 50% de chance dele escolher usar a poção.
-    * Após um personagem morrer, o laço de repetição se encerra e mostra qual personagem morreu. Então ele chama a função *`Subir_nivel`*
-    * Entra em um novo laço, para saber se o usuário deseja salvar o jogo. Se sim, ele chama a função.
-    * Entra em outro laço, para saber se o usuário deseja jogar novamente. Se sim, ele continua, se não ele encerra o jogo.
+    * Pergunta se o usuário irá continuar um jogo anterior. Se sim, ele continua. Se não, atualiza os dados dos personagens para os valores iniciais e salva.
+    * O laço principal inicia uma partida, chama `Escolha_personagem` e depois roda `jogar_rodada` repetidamente até que um dos personagens morra (`vida <= 0`).
+    * Após um personagem morrer, mostra qual personagem morreu, atualiza vitórias e chama `Subir_nivel`.
+    * Pergunta se o usuário deseja salvar o jogo (chama `Salvar` se sim) e se deseja jogar novamente (encerra o jogo se não).
 #### `def Main()`:
 * Função "menu", chama as funções *`Inicio`*, *`Criar_personagens`* e *`SOT`*.
 #### `def Novo()`:
