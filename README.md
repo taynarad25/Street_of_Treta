@@ -6,9 +6,16 @@ Esse jogo foi criado por Bruno Galhoto e Joabe Matos e Desenvolvido por mim, Tay
 
 Busco fazer uma interface gráfica ainda. Então aguarde por mudanças :)
 
+### Persistência e login
+
+O progresso dos personagens é salvo em um banco **SQLite** (`street_of_treta.db`, criado automaticamente na primeira execução, não versionado no git). Cada usuário se cadastra com usuário/senha (senha nunca é salva em texto puro — usa hash com salt via `hashlib.pbkdf2_hmac`) e passa a ter sua própria progressão dos 14 personagens, isolada da de outros usuários. Toda a camada de banco fica em [`db.py`](db.py); o jogo em si (`Street_of_Treta.py`) não executa SQL diretamente.
+
+"Sessão de login" aqui significa apenas: o usuário autenticado fica ativo em memória durante aquela execução do script. Não há tokens de sessão persistentes — não faria sentido para um jogo de terminal de processo único.
 
 ### Um pouco sobre as funções:
 
+#### `def Login()`:
+* Menu inicial (Entrar / Cadastrar / Sair). Autentica ou cria um usuário via `db.py` e retorna o `usuario_id` que será usado no restante da execução.
 #### `def confirmar(pergunta)`:
 * Helper usado por todo o jogo para perguntas de sim/não (aceita `sim`/`s`/`não`/`nao`/`n`, em qualquer capitalização). Repete a pergunta até receber uma resposta válida.
 #### `def Inicio()`:
@@ -38,12 +45,12 @@ Busco fazer uma interface gráfica ainda. Então aguarde por mudanças :)
     * Após um personagem morrer, mostra qual personagem morreu, atualiza vitórias e chama `Subir_nivel`.
     * Pergunta se o usuário deseja salvar o jogo (chama `Salvar` se sim) e se deseja jogar novamente (encerra o jogo se não).
 #### `def Main()`:
-* Função "menu", chama as funções *`Inicio`*, *`Criar_personagens`* e *`SOT`*.
+* Função "menu": inicializa o schema do banco, chama `Login`, depois *`Inicio`*, *`Criar_personagens`* e *`SOT`*.
 #### `def Novo()`:
-* Abre o arquivo que contem os valores iniciais e atualiza todos os personagens, substituindo os dados anteriores.
+* Reseta os personagens do usuário logado para os valores iniciais no banco (`db.resetar_personagens`) e atualiza a lista em memória.
 #### `def Salvar()`:
-* Abre o arquivo e que contem todos os personagens e atualiza os dados.
-#### `def Criar_personagens()`:
-* Abre o arquivo e pega todas as informações que contem nele.
+* Persiste o estado atual dos personagens do usuário logado no banco (`db.salvar_personagens`).
+#### `def Criar_personagens(usuario_id)`:
+* Carrega do banco os 14 personagens do usuário informado (`db.carregar_personagens`) e monta os objetos `Personagem` em memória.
 #### `def Subir_nivel()`:
 * Atualiza o nível do personagem, de acordo com suas vitórias. Chama as funções de atualização do personagem.
