@@ -1,13 +1,16 @@
-from random import randint
+import getpass
 import sys
 import time
+from random import randint
 
-# Estado global: lista de personagens, carregada do arquivo de save em Criar_personagens()
+import db
+from db import ATACK_BASE, POCAO_BASE, VIDA_BASE
+
+# Estado global: lista de personagens do usuário logado, carregada do banco em Criar_personagens()
 personagem = []
+# Estado global: id do usuário autenticado nesta execução (definido por Login())
+usuario_atual_id = None
 
-VIDA_BASE = 50
-ATACK_BASE = 5
-POCAO_BASE = 2
 INCREMENTO_VIDA_POR_NIVEL = 5
 INCREMENTO_ATACK_POR_NIVEL = 1
 
@@ -19,9 +22,6 @@ BONUS_COMBO_3 = 10
 
 VIDA_PERDIDA_EMPATE = 5
 EMPATES_PARA_PENALIDADE = 3
-
-ARQUIVO_PERSONAGENS = "infoPersonagens/SOT_personagens.txt"
-ARQUIVO_VALORES_INICIAIS = "infoPersonagens/valores_iniciais.txt"
 
 NOMES_JOGADAS = {1: "Pedra", 2: "Papel", 3: "Tesoura"}
 
@@ -51,6 +51,40 @@ def confirmar(pergunta):
         if resposta in respostas_nao:
             return False
         print("Entrada Invalida!\n")
+
+
+def Login():
+    while True:
+        print("\n1 - Entrar")
+        print("2 - Cadastrar")
+        print("0 - Sair")
+        try:
+            opcao = int(input("> "))
+        except ValueError:
+            print("Entrada Invalida!\n")
+            continue
+
+        if opcao == 0:
+            sys.exit()
+        elif opcao == 1:
+            username = input("Usuário: ").strip()
+            senha = getpass.getpass("Senha: ")
+            usuario_id = db.autenticar_usuario(username, senha)
+            if usuario_id is None:
+                print("Usuário ou senha inválidos.\n")
+                continue
+            return usuario_id
+        elif opcao == 2:
+            username = input("Novo usuário: ").strip()
+            senha = getpass.getpass("Senha: ")
+            try:
+                usuario_id = db.registrar_usuario(username, senha)
+            except ValueError as erro:
+                print(f"{erro}\n")
+                continue
+            return usuario_id
+        else:
+            print("Entrada Invalida!\n")
 
 
 def Inicio():
@@ -293,37 +327,31 @@ def SOT():
 
 
 def Main():
+    global usuario_atual_id
+    db.inicializar_schema()
+    usuario_atual_id = Login()
     Inicio()
-    Criar_personagens()
+    Criar_personagens(usuario_atual_id)
     SOT()
 
 
 def Novo():
-    with open(ARQUIVO_VALORES_INICIAIS, encoding="utf8") as arquivo:
-        linha = arquivo.readline()
-    vida, pocao, atack, nivel, vitoria = (int(v) for v in linha.split("|")[:5])
+    db.resetar_personagens(usuario_atual_id)
     for p in personagem:
-        p.vida = vida
-        p.pocao = pocao
-        p.atack = atack
-        p.nivel = nivel
-        p.vitoria = vitoria
+        p.vida = VIDA_BASE
+        p.pocao = POCAO_BASE
+        p.atack = ATACK_BASE
+        p.nivel = db.NIVEL_INICIAL
+        p.vitoria = db.VITORIA_INICIAL
 
 
 def Salvar():
-    # Sobrescreve o arquivo de save com o estado atual de todos os personagens
-    with open(ARQUIVO_PERSONAGENS, "w", encoding="utf8") as arquivo:
-        for p in personagem:
-            arquivo.write(f"{p.nome}|{p.vida}|{p.pocao}|{p.atack}|{p.nivel}|{p.vitoria}\n")
+    db.salvar_personagens(usuario_atual_id, personagem)
 
 
-def Criar_personagens():
-    with open(ARQUIVO_PERSONAGENS, "r", encoding="utf8") as arquivo:
-        linhas = arquivo.readlines()
-    for linha in linhas:
-        coluna = linha.split("|")
-        nome = coluna[0]
-        vida, pocao, atack, nivel, vitoria = (int(v) for v in coluna[1:6])
+def Criar_personagens(usuario_id):
+    personagem.clear()
+    for nome, vida, pocao, atack, nivel, vitoria in db.carregar_personagens(usuario_id):
         personagem.append(Personagem(nome, vida, pocao, atack, nivel, vitoria))
 
 
