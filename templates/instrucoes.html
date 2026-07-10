@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block conteudo %}
+<h2>Instruções iniciais</h2>
+<ul>
+    <li>O jogo se resume em Pedra, Papel e Tesoura.</li>
+    <li>Os personagens começam no nível 1.</li>
+    <li>Ao utilizar uma poção, sua vida aumenta 15 pontos.</li>
+    <li>Você poderá usar uma poção quando sua vida for menor que 25 pontos.</li>
+    <li>Ao ganhar 2x consecutivas, o ataque inicial passa a ser somado a 1.</li>
+    <li>Ao ganhar 3x consecutivas, o ataque inicial passa a ser somado a 10.</li>
+    <li>Ao empatar, o ataque volta ao valor inicial.</li>
+    <li>Ao empatar 3x, os dois personagens perdem 5 pontos de vida.</li>
+    <li>Quando um dos personagens perde, o ataque volta a seu valor inicial.</li>
+</ul>
+
+<h2>Mudança de nível</h2>
+<ul>
+    <li>Personagem de nível 1 que sobreviver a 2 batalhas avança para o nível 2.</li>
+    <li>Personagem de nível 2 que sobreviver a 3 batalhas avança para o nível 3.</li>
+    <li>Personagem de nível 3 que sobreviver a 4 batalhas avança para o nível 4.</li>
+    <li>Personagem de nível 4 que sobreviver a 5 batalhas avança para o nível 5.</li>
+</ul>
+
+<h2>Níveis</h2>
+<table>
+    <tr><th>Nível</th><th>Vida</th><th>Poção</th><th>Ataque</th></tr>
+    <tr><td>1</td><td>50</td><td>2</td><td>5</td></tr>
+    <tr><td>2</td><td>55</td><td>2</td><td>6</td></tr>
+    <tr><td>3</td><td>60</td><td>3</td><td>7</td></tr>
+    <tr><td>4</td><td>65</td><td>3</td><td>8</td></tr>
+    <tr><td>5</td><td>70</td><td>4</td><td>9</td></tr>
+</table>
+<p>Assim por diante: a cada nível a vida aumenta 5 pontos e o ataque 1 ponto; a cada 2 níveis a poção aumenta 1 ponto.</p>
+{% endblock %}

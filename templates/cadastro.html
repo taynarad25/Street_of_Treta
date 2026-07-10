@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block conteudo %}
+<h2>Cadastrar</h2>
+<form method="post">
+    <label>Usuário<input type="text" name="usuario" required autofocus></label>
+    <label>Senha<input type="password" name="senha" required></label>
+    <button type="submit">Cadastrar</button>
+</form>
+<p>Já tem conta? <a href="{{ url_for('login') }}">Entrar</a></p>
+{% endblock %}
