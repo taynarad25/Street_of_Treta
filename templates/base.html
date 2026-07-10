@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <title>Street of Treta</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1><a href="{{ url_for('index') }}">STREET OF TRETA</a></h1>
+        <nav>
+            <a href="{{ url_for('instrucoes') }}">Instruções</a>
+            {% if session.get('usuario_id') %}
+                <a href="{{ url_for('personagens') }}">Personagens</a>
+                <a href="{{ url_for('logout') }}">Sair</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    {% with mensagens = get_flashed_messages() %}
+        {% if mensagens %}
+            <ul class="flash">
+                {% for mensagem in mensagens %}
+                    <li>{{ mensagem }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <main>
+        {% block conteudo %}{% endblock %}
+    </main>
+</body>
+</html>

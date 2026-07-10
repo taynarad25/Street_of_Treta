@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block conteudo %}
+<h2>Rodada {{ "%02d"|format(estado.rodada) }}</h2>
+
+<div class="batalha">
+    <div>
+        <img class="retrato" src="{{ url_for('static', filename='personagens/' + jogador.nome + '.png') }}" alt="{{ jogador.nome }}">
+        <h3>{{ jogador.nome }} (você)</h3>
+        <p>Vida: {{ jogador.vida }} | Ataque: {{ jogador.atack }} | Poções: {{ jogador.pocao }}</p>
+    </div>
+    <div>
+        <img class="retrato" src="{{ url_for('static', filename='personagens/' + cpu.nome + '.png') }}" alt="{{ cpu.nome }}">
+        <h3>{{ cpu.nome }} (CPU)</h3>
+        <p>Vida: {{ cpu.vida }} | Ataque: {{ cpu.atack }} | Poções: {{ cpu.pocao }}</p>
+    </div>
+</div>
+
+{% if estado.mensagens %}
+<ul class="mensagens">
+    {% for mensagem in estado.mensagens %}
+    <li>{{ mensagem }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+{% if estado.aguardando_pocao %}
+<h3>Deseja usar uma poção?</h3>
+<form method="post" action="{{ url_for('pocao') }}">
+    <button type="submit" name="usar" value="sim">Usar poção</button>
+    <button type="submit" name="usar" value="nao">Não usar</button>
+</form>
+{% else %}
+<h3>Escolha uma jogada</h3>
+<form method="post" action="{{ url_for('jogar') }}" class="jogadas">
+    <button type="submit" name="jogada" value="1">
+        <img src="{{ url_for('static', filename='jogadas/Pedra.png') }}" alt=""> Pedra
+    </button>
+    <button type="submit" name="jogada" value="2">
+        <img src="{{ url_for('static', filename='jogadas/Papel.png') }}" alt=""> Papel
+    </button>
+    <button type="submit" name="jogada" value="3">
+        <img src="{{ url_for('static', filename='jogadas/Tesoura.png') }}" alt=""> Tesoura
+    </button>
+</form>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block conteudo %}
+<h2>Fim de batalha</h2>
+<div class="batalha">
+    <div>
+        <img class="retrato vencedor" src="{{ url_for('static', filename='personagens/' + vencedor.nome + '.png') }}" alt="{{ vencedor.nome }}">
+        <h3>{{ vencedor.nome }}</h3>
+        <p>Venceu!</p>
+    </div>
+    <div>
+        <img class="retrato morto" src="{{ url_for('static', filename='personagens/' + perdedor.nome + '.png') }}" alt="{{ perdedor.nome }}">
+        <h3>{{ perdedor.nome }}</h3>
+        <p>Morreu.</p>
+    </div>
+</div>
+<p>Rodadas jogadas: {{ rodadas }}</p>
+
+{% if mensagens_nivel %}
+<ul class="mensagens">
+    {% for mensagem in mensagens_nivel %}
+    <li>{{ mensagem }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+<a href="{{ url_for('personagens') }}">Voltar aos personagens</a>
+{% endblock %}

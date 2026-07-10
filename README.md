@@ -1,56 +1,78 @@
 # Street_of_Treta
 
-Esse é o Street of Treta em Python. Esse jogo já foi desenvolvido em C, porém não foi publicado.
+Esse é o Street of Treta, um Pedra-Papel-Tesoura com RPG leve (níveis, ataque, poções) jogado pelo navegador. Esse jogo já foi desenvolvido em C, porém não foi publicado.
 
-Esse jogo foi criado por Bruno Galhoto e Joabe Matos e Desenvolvido por mim, Taynara Diniz.
+Esse jogo foi criado por Bruno Galhoto e Joabe Matos e desenvolvido por mim, Taynara Diniz.
 
-Busco fazer uma interface gráfica ainda. Então aguarde por mudanças :)
+### Como rodar
+
+```
+pip install -r requirements.txt
+python app.py
+```
+
+Acesse `http://127.0.0.1:5000` no navegador.
 
 ### Persistência e login
 
-O progresso dos personagens é salvo em um banco **SQLite** (`street_of_treta.db`, criado automaticamente na primeira execução, não versionado no git). Cada usuário se cadastra com usuário/senha (senha nunca é salva em texto puro — usa hash com salt via `hashlib.pbkdf2_hmac`) e passa a ter sua própria progressão dos 14 personagens, isolada da de outros usuários. Toda a camada de banco fica em [`db.py`](db.py); o jogo em si (`Street_of_Treta.py`) não executa SQL diretamente.
+O progresso dos personagens é salvo em um banco **SQLite** (`street_of_treta.db`, criado automaticamente na primeira execução, não versionado no git). Cada usuário se cadastra com usuário/senha (senha nunca é salva em texto puro — hash com salt via `hashlib.pbkdf2_hmac`) e tem sua própria progressão dos 14 personagens, isolada da de outros usuários.
 
-"Sessão de login" aqui significa apenas: o usuário autenticado fica ativo em memória durante aquela execução do script. Não há tokens de sessão persistentes — não faria sentido para um jogo de terminal de processo único.
+A sessão de login agora é uma sessão web de verdade, via cookie assinado do Flask (`flask.session`) — cada aba/navegador tem seu próprio usuário autenticado, sem depender de nenhum estado guardado em memória do servidor.
 
-### Um pouco sobre as funções:
+> Nota: `app.secret_key` usa uma chave de desenvolvimento fixa como fallback (variável de ambiente `SECRET_KEY`). Antes de qualquer deploy público, defina uma chave secreta real via variável de ambiente. Não há proteção CSRF nos formulários — aceitável para uso local, mas vale considerar antes de expor a aplicação publicamente.
 
-#### `def Login()`:
-* Menu inicial (Entrar / Cadastrar / Sair). Autentica ou cria um usuário via `db.py` e retorna o `usuario_id` que será usado no restante da execução.
-#### `def confirmar(pergunta)`:
-* Helper usado por todo o jogo para perguntas de sim/não (aceita `sim`/`s`/`não`/`nao`/`n`, em qualquer capitalização). Repete a pergunta até receber uma resposta válida.
-#### `def Inicio()`:
-* Apresenta as informações do jogo, instruções para melhor entendimento.
-#### `def Atualizar_vida()`:
-* Calcula e atualiza a vida do personagem de acordo com seu nível. Se o personagem estiver vivo e a vida for menor que **`50 + ((nivel - 1) * 5)`**.
-#### `def Atualizar_atack()`:
-* Calcula e atualiza o ataque do personagem de acordo com seu nível. Se o personagem estiver vivo e o ataque for menor que **`5 + (personagem[i].nivel - 1)`**.
-#### `Atualizar_pocao()`:
-* Calcula e atualiza a poção do personagem de acordo com seu nível. Se o personagem estiver vivo e a poção for diferente de 2 ou a poção for menor que **`2 + (personagem[i].nivel - 1) // 2`**.
-#### `def Escolha_personagem(escolha)`:
-* Apresenta os personagens disponíveis e possibilita a escolha de dois desses personagens. Só é possível escolher um personagem que esteja vivo e não pode escolher o mesmo personagem duas vezes.
-#### `def escolher_jogada()`:
-* Apresenta o menu Pedra/Papel/Tesoura/Sair e retorna a opção escolhida pelo jogador.
-#### `def calcular_bonus_ataque(contador)` e `def aplicar_ataque(atacante_idx, defensor_idx, contador)`:
-* Calculam o bônus de dano por vitórias consecutivas (+1 na 2ª vitória seguida, +10 da 3ª em diante) e aplicam o dano ao personagem defensor, usados tanto quando o jogador ataca quanto quando a CPU ataca.
-#### `def resetar_combo(contador, idx)`:
-* Zera o contador de vitórias consecutivas de um personagem, avisando quando o ataque volta ao valor normal.
-#### `def tentar_usar_pocao_jogador(idx_jogador, idx_oponente)` e `def tentar_usar_pocao_cpu(idx_cpu, idx_oponente)`:
-* Quando a vida está abaixo de 25 e há poções disponíveis, oferecem o uso ao jogador (pergunta) ou decidem automaticamente pela CPU (50% de chance).
-#### `def jogar_rodada(escolha, contadores)`:
-* Resolve uma rodada de Pedra/Papel/Tesoura: pega a jogada do jogador e sorteia a da CPU, decide quem venceu (ou empate) e aplica ataque/poção/combo de acordo com o resultado.
-#### `SOT()`:
-* Aqui é onde a mágica acontece:
-    * Pergunta se o usuário irá continuar um jogo anterior. Se sim, ele continua. Se não, atualiza os dados dos personagens para os valores iniciais e salva.
-    * O laço principal inicia uma partida, chama `Escolha_personagem` e depois roda `jogar_rodada` repetidamente até que um dos personagens morra (`vida <= 0`).
-    * Após um personagem morrer, mostra qual personagem morreu, atualiza vitórias e chama `Subir_nivel`.
-    * Pergunta se o usuário deseja salvar o jogo (chama `Salvar` se sim) e se deseja jogar novamente (encerra o jogo se não).
-#### `def Main()`:
-* Função "menu": inicializa o schema do banco, chama `Login`, depois *`Inicio`*, *`Criar_personagens`* e *`SOT`*.
-#### `def Novo()`:
-* Reseta os personagens do usuário logado para os valores iniciais no banco (`db.resetar_personagens`) e atualiza a lista em memória.
-#### `def Salvar()`:
-* Persiste o estado atual dos personagens do usuário logado no banco (`db.salvar_personagens`).
-#### `def Criar_personagens(usuario_id)`:
-* Carrega do banco os 14 personagens do usuário informado (`db.carregar_personagens`) e monta os objetos `Personagem` em memória.
-#### `def Subir_nivel()`:
-* Atualiza o nível do personagem, de acordo com suas vitórias. Chama as funções de atualização do personagem.
+### Estrutura do projeto
+
+- [`db.py`](db.py) — toda a camada de banco de dados: cadastro/autenticação de usuários e CRUD dos personagens. Não sabe nada sobre HTML ou regras de combate.
+- [`jogo.py`](jogo.py) — a lógica de combate, pura (sem banco, sem HTTP): calcula dano, bônus de combo, uso de poção e subida de nível a partir de objetos `Personagem` recebidos por parâmetro.
+- [`app.py`](app.py) — a aplicação Flask: rotas HTTP, sessão do usuário logado, e a "cola" entre `db.py` e `jogo.py`.
+- `templates/` — páginas HTML (Jinja2): login, cadastro, instruções, lista de personagens, batalha e resultado.
+- `static/style.css` — estilo básico das páginas.
+- `static/personagens/`, `static/jogadas/` — imagens dos personagens e de Pedra/Papel/Tesoura, redimensionadas (320×320 e 128×128) a partir da arte original em `image/` (pasta local, fora do git — ver `.gitignore`) para manter o carregamento das páginas rápido.
+
+### Rotas principais
+
+| Rota | Método | O que faz |
+|---|---|---|
+| `/login`, `/cadastro` | GET/POST | Autenticação e criação de conta |
+| `/logout` | GET | Encerra a sessão |
+| `/instrucoes` | GET | Regras do jogo (pode ser acessada a qualquer momento) |
+| `/personagens` | GET | Lista os 14 personagens do usuário e permite escolher quem vai batalhar |
+| `/personagens/resetar` | POST | Reseta o progresso do usuário para os valores iniciais |
+| `/batalha/iniciar` | POST | Escolhe o personagem do jogador e começa uma partida contra a CPU |
+| `/batalha` | GET | Mostra o estado da rodada atual e o formulário de jogada |
+| `/batalha/jogar` | POST | Resolve uma rodada de Pedra/Papel/Tesoura |
+| `/batalha/pocao` | POST | Usa ou não uma poção quando oferecida |
+| `/batalha/resultado` | GET | Mostra quem venceu, aplica subida de nível e encerra a partida |
+
+O estado de uma batalha em andamento (quem está lutando, contadores de combo/empate) fica só na sessão do usuário — os personagens em si (vida, nível, poções) sempre vêm do banco a cada requisição, para que dois usuários jogando ao mesmo tempo nunca compartilhem estado.
+
+**O oponente da CPU é sempre sorteado** (`jogo.gerar_cpu`) com status próprio, independente do roster do usuário — nunca uma das 14 linhas salvas no banco. Isso evita duas inconsistências: a CPU vencer e o usuário "ganhar" um personagem mais forte, ou a CPU perder e o usuário "perder" um personagem seu. Só o personagem do jogador é salvo/sobe de nível ao fim da partida; o da CPU é descartado.
+
+### Um pouco sobre as funções (`jogo.py`)
+
+#### `calcular_bonus_ataque(contador)`:
+* Calcula o bônus de dano por vitórias consecutivas: +1 na 2ª vitória seguida, +10 da 3ª em diante.
+#### `aplicar_ataque(atacante, defensor, contador)`:
+* Aplica o dano ao personagem defensor e retorna as mensagens correspondentes (bônus de ataque, vida restante).
+#### `resetar_combo(personagem, contador)`:
+* Zera o contador de vitórias consecutivas, retornando a mensagem de aviso quando o ataque volta ao valor normal.
+#### `pode_usar_pocao(personagem, oponente)` / `usar_pocao(personagem)`:
+* Verificam se a poção pode ser oferecida (vida < 25, tem poção, oponente vivo) e aplicam a cura de 15 pontos.
+#### `tentar_usar_pocao_cpu(cpu, oponente)`:
+* Decide automaticamente (50% de chance) se a CPU usa uma poção quando possível.
+#### `jogar_rodada(jogador, cpu, jogada_jogador, contadores)`:
+* Resolve uma rodada completa: sorteia a jogada da CPU, decide vitória/empate/derrota, aplica ataque e poção, e devolve um dicionário com as mensagens, o resultado e se a batalha terminou.
+#### `atualizar_vida(personagens)` / `atualizar_atack(personagens)` / `atualizar_pocao(personagens)`:
+* Recalculam vida/ataque/poção de acordo com o nível de cada personagem.
+#### `subir_nivel(personagens)`:
+* Sobe o nível de quem tiver vitórias suficientes e aplica as atualizações acima.
+
+### Regras do jogo
+
+* Os personagens começam no nível 1 (vida 50, ataque 5, 2 poções).
+* Ganhar 2x seguidas soma +1 no ataque; ganhar 3x seguidas soma +10. Perder ou empatar reseta o bônus.
+* Empatar 3x seguidas tira 5 pontos de vida de ambos.
+* Poção cura 15 pontos e só pode ser usada com vida abaixo de 25.
+* A cada nível, vida +5 e ataque +1; a cada 2 níveis, poção +1.
+* Sobreviver a `nível + 1` batalhas avança um personagem de nível.

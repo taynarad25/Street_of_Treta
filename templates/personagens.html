@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block conteudo %}
+<h2>Seus personagens</h2>
+<table>
+    <tr>
+        <th></th><th>Nome</th><th>Vida</th><th>Nível</th><th>Poção</th><th>Ataque</th><th>Vitórias</th><th>Status</th>
+    </tr>
+    {% for idx, p in personagens %}
+    <tr class="{{ 'morto' if p.vida <= 0 else '' }}">
+        <td><img class="miniatura" src="{{ url_for('static', filename='personagens/' + p.nome + '.png') }}" alt="{{ p.nome }}"></td>
+        <td>{{ p.nome }}</td>
+        <td>{{ p.vida }}</td>
+        <td>{{ p.nivel }}</td>
+        <td>{{ p.pocao }}</td>
+        <td>{{ p.atack }}</td>
+        <td>{{ p.vitoria }}</td>
+        <td>{{ "Morto" if p.vida <= 0 else "Vivo" }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<h2>Iniciar batalha</h2>
+<p>O oponente é sorteado pela CPU, com status próprio — não afeta nem é afetado pelo seu progresso.</p>
+<form method="post" action="{{ url_for('iniciar_batalha') }}">
+    <label>Seu personagem
+        <select name="jogador" required>
+            {% for idx, p in personagens if p.vida > 0 %}
+            <option value="{{ idx }}">{{ p.nome }}</option>
+            {% endfor %}
+        </select>
+    </label>
+    <button type="submit">Iniciar Batalha</button>
+</form>
+
+<h2>Progresso</h2>
+<form method="post" action="{{ url_for('resetar') }}" onsubmit="return confirm('Resetar todo o progresso para os valores iniciais?');">
+    <button type="submit">Resetar progresso</button>
+</form>
+{% endblock %}
